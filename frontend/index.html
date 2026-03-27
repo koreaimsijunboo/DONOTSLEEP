@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI 졸음 박제 시스템</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.js" crossorigin="anonymous"></script>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body onclick="enableAudioContext()">
+
+
+
+<div id="loading">AI 감시 시스템 기동 중...</div>
+
+
+
+<h1>졸음 방지 박제 시스템</h1>
+
+<div id="admin_tag">✅ 관리자 모드 활성화됨</div>
+
+
+
+<div class="main-container">
+
+<div class="main-wrapper">
+
+<div class="camera-section">
+
+<div class="view-box">
+
+<video id="video" autoplay playsinline></video>
+
+<canvas id="output_canvas" width="640" height="480"></canvas>
+
+</div>
+
+<div class="status-ui">
+
+<div id="ear_stat">분석 중...</div>
+
+<div id="timer_stat">감지 시간: 0.0s / 7.0s</div>
+
+<div class="progress-bg"><div id="timer_bar"></div></div>
+
+</div>
+
+</div>
+
+
+
+<div class="board-section">
+
+<div class="board-header">
+
+<span style="color: var(--danger); font-weight: bold;">🚨 박제 게시판</span>
+
+<div style="display:flex; gap:5px;">
+
+<button class="cancel-btn" style="padding: 5px 10px; font-size: 11px;" onclick="openSettings()">⚙️ 설정</button>
+
+<button id="auth_btn" class="cancel-btn" style="padding: 5px 10px; font-size: 11px;" onclick="handleAuthClick()">Admin</button>
+
+<button id="bulk_del_btn" class="del-btn" style="padding: 5px 10px; font-size: 11px; display:none;" onclick="deleteAll()">전체삭제</button>
+
+</div>
+
+</div>
+
+<div id="capture_list" class="board-list"></div>
+
+</div>
+
+
+
+<div class="ad-section">
+
+<div class="ad-card">
+
+<a href="https://jangsooshop.com/" target="_blank">
+
+<img src="assets/장수.jpg" alt="광고">
+
+<div class="ad-label">ADVERTISEMENT</div>
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div id="settings_modal" class="modal">
+
+<div class="modal-content">
+
+<h2 style="margin-top:0; color:var(--accent);">시스템 설정</h2>
+
+<div class="setting-item">
+
+<label>장치 제어</label>
+
+<button onclick="requestCameraAgain()" style="background:var(--accent); color:black; padding:5px 10px; font-size:11px; font-weight:bold;">🎥 카메라 권한 요청</button>
+
+</div>
+
+<div class="setting-item">
+
+<label>배경음악 (BGM)</label>
+
+<button id="bgm_toggle" onclick="toggleBGM()">OFF</button>
+
+</div>
+
+<div class="setting-item">
+
+<label>음악 모드</label>
+
+<select id="bgm_select" onchange="changeBGMType()">
+
+<option value="default">기본 (bgm.mp3)</option>
+
+<option value="custom">커스텀 업로드</option>
+
+</select>
+
+</div>
+
+<div id="custom_upload_area" class="setting-item" style="display:none;">
+
+<input type="file" id="bgm_file" accept="audio/*" onchange="handleBGMUpload()">
+
+</div>
+
+<button class="cancel-btn" onclick="closeSettings()" style="width:100%; margin-top:10px; padding:12px;">닫기</button>
+
+</div>
+
+</div>
+
+
+
+<div id="admin_modal" class="modal">
+
+<div class="modal-content">
+
+<h2>Admin Verify</h2>
+
+<input type="text" id="admin_id" placeholder="ID 입력" style="width:100%; padding:10px; margin-bottom:10px; box-sizing:border-box; background:#333; color:white; border:1px solid #555;">
+
+<input type="password" id="admin_pw" placeholder="PW 입력" style="width:100%; padding:10px; margin-bottom:10px; box-sizing:border-box; background:#333; color:white; border:1px solid #555;">
+
+
+<div style="display: flex; justify-content: center; margin-bottom: 10px;">
+
+<div class="g-recaptcha" data-sitekey="6LeUuogsAAAAAEM09RfTww1_LZAlnslH516mHS7K" data-theme="dark"></div>
+
+</div>
+
+
+
+<div class="btn-group" style="display:flex; gap:10px; margin-top:10px;">
+
+<button class="del-btn" onclick="verifyAdmin()" style="flex:1; padding:10px;">인증하기</button>
+
+<button class="cancel-btn" onclick="closeAuth()" style="flex:1; padding:10px;">닫기</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<audio id="alarm" src="assets/alarm.mp3" preload="auto" loop></audio>
+
+<audio id="bgm" src="assets/bgm.mp3" preload="auto" loop></audio>
+
+
+
+<script type="module" src="script.js"></script>
+
+</body>
+
+</html>
