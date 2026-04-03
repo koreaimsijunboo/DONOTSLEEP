@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOM Running</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: "Pretendard", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #ff3e3e;
+    }
+
+    #dosbox {
+      width: min(960px, 95vw);
+      height: min(600px, 70vh);
+      border: 2px solid #333;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .controls {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button, a {
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      background: #222;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button:hover, a:hover {
+      background: #333;
+    }
+
+    .hint {
+      margin-top: 12px;
+      font-size: 12px;
+      opacity: 0.85;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="title">DOOM Running</div>
+  <div id="dosbox"></div>
+
+  <div class="controls">
+    <button id="fs_btn" type="button">전체화면</button>
+    <a href="/" aria-label="메인으로 돌아가기">메인으로</a>
+  </div>
+
+  <div class="hint">
+    로딩 후 화면 클릭 후 Enter를 누르세요. 이동: 방향키 / 발사: Ctrl / 사용: Space
+  </div>
+
+  <script src="https://js-dos.com/cdn/js-dos-api.js"></script>
+  <script>
+    const dosbox = new Dosbox({
+      id: "dosbox",
+      onload: function (db) {
+        db.run("https://js-dos.com/cdn/upload/DOOM-@evilution.zip", "./DOOM/DOOM.EXE");
+      },
+      onrun: function () {
+        console.log("DOOM is running");
+      }
+    });
+
+    document.getElementById("fs_btn").addEventListener("click", function () {
+      dosbox.requestFullScreen();
+    });
+  </script>
+</body>
+</html>
